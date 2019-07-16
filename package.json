@@ -1,0 +1,26 @@
+{
+  "name": "greengate-app-backend-serverless",
+  "version": "1.0.0",
+  "description": "Backend for greengate maintanance app.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "sls offline start --skipCacheInvalidation",
+    "test": "jest --verbose",
+    "test-watch": "jest --watchAll --verbose"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^24.0.13",
+    "jest": "^24.8.0",
+    "serverless-offline": "^5.0.1",
+    "supertest": "^4.0.2"
+  },
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "google-spreadsheet": "^2.0.7",
+    "mongoose": "^5.5.13",
+    "prismic-javascript": "^2.0.3"
+  }
+}

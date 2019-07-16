@@ -1,0 +1,166 @@
+service: greengate-app
+
+provider:
+  name: aws
+  runtime: nodejs10.x # set node.js runtime
+  memorySize: 128 # set the maximum memory of the Lambdas in Megabytes
+  timeout: 10 # the timeout is 10 seconds (default is 6 seconds)
+  stage: dev # setting the env stage to dev, this will be visible in the routes
+  region: eu-west-2
+
+functions: # add 4 functions for CRUD
+  # users
+  login:
+    handler: handler.loginUser
+    events:
+      - http:
+          path: login # path will be domain.name.com/dev/create-task
+          method: post
+          cors: true
+  getAllUsers:
+    handler: handler.getAllUsers
+    events:
+      - http:
+          path: users # path will be domain.name.com/dev/create-task
+          method: get
+          cors: true
+  getSingleUser:
+    handler: handler.getSingleUser
+    events:
+      - http:
+          path: users/{uid} # path will be domain.name.com/dev/create-task
+          method: get
+          cors: true
+
+  # tasks
+  create:
+    handler: handler.createTask # point to exported create function in handler.js
+    events:
+      - http:
+          path: tasks # path will be domain.name.com/dev/create-task
+          method: post
+          cors: true
+  getAllTasks:
+    handler: handler.getAllTasks # point to exported create function in handler.js
+    events:
+      - http:
+          path: tasks # path will be domain.name.com/dev/get-all-tasks
+          method: get
+          cors: true
+  getAllTasksByMonth:
+    handler: handler.getAllTasksByMonth # point to exported create function in handler.js
+    events:
+      - http:
+          path: tasks/month/{month} # path will be domain.name.com/dev/get-all-tasks
+          method: get
+          cors: true
+  getAllTasksByDay:
+    handler: handler.getAllTasksByDay # point to exported create function in handler.js
+    events:
+      - http:
+          path: tasks/month/{month}/day_start/{dayStart}/day_end/{dayEnd} # path will be domain.name.com/dev/get-all-tasks
+          method: get
+          cors: true
+  getTaskById:
+    handler: handler.getTaskByID # point to exported create function in handler.js
+    events:
+      - http:
+          path: tasks/{id} # path will be domain.name.com/dev/get-all-tasks
+          method: get
+          cors: true
+  update:
+    handler: handler.updateTask # point to exported create function in handler.js
+    events:
+      - http:
+          path: tasks/{id} # path will be domain.name.com/dev/get-all-tasks
+          method: put
+          cors: true
+  updateStatus:
+    handler: handler.updateTaskStatus # point to exported create function in handler.js
+    events:
+      - http:
+          path: tasks/{id}/status # path will be domain.name.com/dev/get-all-tasks
+          method: put
+          cors: true
+  remove:
+    handler: handler.removeTask # point to exported create function in handler.js
+    events:
+      - http:
+          path: tasks/{id} # path will be domain.name.com/dev/get-all-tasks
+          method: delete
+          cors: true
+  addComment:
+    handler: handler.addCommentToTask # point to exported create function in handler.js
+    events:
+      - http:
+          path: tasks/{id}/comments # path will be domain.name.com/dev/get-all-tasks
+          method: post
+          cors: true
+
+  # notifications
+  createNotification:
+    handler: handler.createNotification # point to exported create function in handler.js
+    events:
+      - http:
+          path: notifications/{id} # path will be domain.name.com/dev/get-all-tasks
+          method: post
+          cors: true
+  getAllNotifications:
+    handler: handler.getAllNotifications # point to exported create function in handler.js
+    events:
+      - http:
+          path: notifications # path will be domain.name.com/dev/get-all-tasks
+          method: get
+          cors: true
+  getAllNotificationsByTaskID:
+    handler: handler.getAllNotificationsByTaskID # point to exported create function in handler.js
+    events:
+      - http:
+          path: notifications/task/{id} # path will be domain.name.com/dev/get-all-tasks
+          method: get
+          cors: true
+  getAllNotificationsByUserUID:
+    handler: handler.getAllNotificationsByUserUID # point to exported create function in handler.js
+    events:
+      - http:
+          path: notifications/user/{uid} # path will be domain.name.com/dev/get-all-tasks
+          method: get
+          cors: true
+  # createRaport:
+  #   handler: handler.createRaport # point to exported create function in handler.js
+  #   events:
+  #     - http:
+  #         path: create-raport/year/{year}/month/{month} # path will be domain.name.com/dev/get-all-tasks
+  #         method: get
+  #         cors: true
+  # getOne:
+  #   handler: handler.getOne
+  #   events:
+  #     - http:
+  #         path: notes/{id} # path will be domain.name.com/dev/notes/1
+  #         method: get
+  #         cors: true
+  # getAll:
+  #   handler: handler.getAll # path will be domain.name.com/dev/notes
+  #   events:
+  #    - http:
+  #        path: notes
+  #        method: get
+  #        cors: true
+  # update:
+  #   handler: handler.update # path will be domain.name.com/dev/notes/1
+  #   events:
+  #    - http:
+  #        path: notes/{id}
+  #        method: put
+  #        cors: true
+  # delete:
+  #   handler: handler.delete
+  #   events:
+  #    - http:
+  #        path: notes/{id} # path will be domain.name.com/dev/notes/1
+  #        method: delete
+  #        cors: true
+
+plugins:
+  - serverless-offline # adding the plugin to be able to run the offline emulation
